@@ -1,6 +1,11 @@
 require_relative 'wagon.rb'
+require_relative 'validation.rb'
 
 class PassengerWagon < Wagon
+  include Validation
+  validate :type, :presence
+  validate :free_place, :presence
+  
   def initialize(number, free_places)
     super(number)
     @type = :passenger

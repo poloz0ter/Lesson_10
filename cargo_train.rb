@@ -5,7 +5,7 @@ class CargoTrain < Train
   end
 
   def add_wagon(wagon)
-    return puts 'Неверный тип вагона' if wagon.type != type
+    raise 'Неверный тип вагона' if wagon.type != type
 
     super
   end

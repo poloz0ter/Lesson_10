@@ -1,13 +1,22 @@
 require_relative 'instance_counter.rb'
 require_relative 'company.rb'
+require_relative 'validation.rb'
+require_relative 'accessor.rb'
 
 class Train
   include InstanceCounter
   include Company
+  include Accessor
+  include Validation
   NUMBER = /.{3}\w*.{2}/
 
   @@trains_with_numbers = {}
-
+  attr_reader :speed, :number, :type, :wagons, :route
+  
+  validate :number, :presence
+  validate :number, :format, NUMBER
+  validate :type, :presence
+  
   def initialize(number)
     @number = number
     validate!
@@ -22,8 +31,6 @@ class Train
   def self.find(number)
     @@trains_with_numbers[number]
   end
-
-  attr_reader :speed, :number, :type, :wagons, :route
 
   def speed_up
     @speed += 20
@@ -72,15 +79,6 @@ class Train
     @route.stations[@station_index]
   end
 
-  def valid?
-    begin
-      validate!
-    rescue StandardError
-      return false
-    end
-    true
-  end
-
   def show_wagons
     @wagons.each { |wagon| yield(wagon) }
   end
@@ -93,10 +91,5 @@ class Train
 
   def previous_station
     @route.stations[@station_index - 1]
-  end
-
-  def validate!
-    raise 'Неверный формат номера' if number !~ NUMBER
-    raise 'Некорректный номер' if number.nil? || number.empty?
   end
 end

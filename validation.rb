@@ -38,20 +38,12 @@ module Validation
       end
     end
 
-    def type(attr_value, option)
-      raise 'type error' unless attr_value.is_a?(option)
+    def attr_type(attr_value, option)
+      raise 'type error' unless attr_value.is_a?(option[0])
     end
 
     def format(attr_value, option)
-      raise 'format error' unless attr_value =~ option
+      raise 'format error' if attr_value !~ option[0]
     end
   end
-end
-
-class Test
-  include Validation
-  attr_accessor :name, :age, :sex
-  validate :name, :presence
-  validate :sex, /[abc]/
-  validate :age, Integer
 end

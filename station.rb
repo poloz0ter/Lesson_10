@@ -1,8 +1,13 @@
 require_relative 'instance_counter.rb'
+require_relative 'validation.rb'
 
 class Station
   include InstanceCounter
+  include Validation
+  
   @@stations = []
+  attr_reader :name, :trains
+  validate :name, :presence
 
   def initialize(name)
     @name = name.to_s.chomp.strip
@@ -15,8 +20,6 @@ class Station
   def self.all
     @@stations
   end
-
-  attr_reader :name, :trains
 
   def take_train(train)
     @trains << train
@@ -34,22 +37,5 @@ class Station
 
   def send_train(train)
     @trains.delete(train)
-  end
-
-  def valid?
-    begin
-      validate!
-    rescue StandardError
-      return false
-    end
-    true
-  end
-
-  private
-
-  def validate!
-    raise 'Неверное название станции' if name.empty? || name.nil?
-
-    false
   end
 end
