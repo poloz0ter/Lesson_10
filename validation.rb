@@ -32,11 +32,8 @@ module Validation
     private
 
     def validate_presence(attr_value, _option)
-      if attr_value.is_a? String
-        raise 'presence error(empty string' if attr_value.empty?
-      else
+        raise 'presence error(empty string' if attr_value.is_a?(String) && attr_value.empty?
         raise 'presence error(nil)' if attr_value.nil?
-      end
     end
 
     def validate_type(attr_value, option)
