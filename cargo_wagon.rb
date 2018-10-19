@@ -5,7 +5,7 @@ class CargoWagon < Wagon
   include Validation
   validate :type, :presence
   validate :free_place, :presence
-  
+
   def initialize(number, free_volume)
     super(number)
     @type = :cargo

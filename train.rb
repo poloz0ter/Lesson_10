@@ -12,11 +12,11 @@ class Train
 
   @@trains_with_numbers = {}
   attr_reader :speed, :number, :type, :wagons, :route
-  
+
   validate :number, :presence
   validate :number, :format, NUMBER
   validate :type, :presence
-  
+
   def initialize(number)
     @number = number
     validate!

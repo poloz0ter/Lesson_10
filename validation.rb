@@ -17,20 +17,21 @@ module Validation
     def valid?
       validate!
       true
-    rescue
+    rescue StandardError
       false
     end
 
     def validate!
       self.class.check_list.each do |check|
         attr_value = instance_variable_get("@#{check[:attr_name]}")
-        send(check[:type], attr_value, check[:option])
+        method_name = "validate_#{check[:type]}".to_sym
+        send(method_name, attr_value, check[:option])
       end
     end
 
     private
 
-    def presence(attr_value, option)
+    def validate_presence(attr_value, _option)
       if attr_value.is_a? String
         raise 'presence error(empty string' if attr_value.empty?
       else
@@ -38,11 +39,11 @@ module Validation
       end
     end
 
-    def attr_type(attr_value, option)
+    def validate_type(attr_value, option)
       raise 'type error' unless attr_value.is_a?(option[0])
     end
 
-    def format(attr_value, option)
+    def validate_format(attr_value, option)
       raise 'format error' if attr_value !~ option[0]
     end
   end

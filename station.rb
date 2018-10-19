@@ -4,7 +4,7 @@ require_relative 'validation.rb'
 class Station
   include InstanceCounter
   include Validation
-  
+
   @@stations = []
   attr_reader :name, :trains
   validate :name, :presence

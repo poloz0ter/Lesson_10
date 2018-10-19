@@ -5,7 +5,7 @@ class PassengerWagon < Wagon
   include Validation
   validate :type, :presence
   validate :free_place, :presence
-  
+
   def initialize(number, free_places)
     super(number)
     @type = :passenger

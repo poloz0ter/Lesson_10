@@ -5,11 +5,13 @@ module Accessor
       define_method(attr_name) { instance_variable_get(var_name) }
       define_method("#{attr_name}=".to_sym) do |value|
         instance_variable_set(var_name, value)
-        @history ||= {}
-        @history[attr_name] ||= []
-        @history[attr_name] << value
+        history = "@#{attr_name}_history".to_sym
+        instance_variable_set(history, []) unless instance_variable_get(history)
+        instance_variable_get(history) << value
       end
-      define_method("#{attr_name}_history") { @history[attr_name] }
+      define_method("#{attr_name}_history") do
+        instance_variable_get("@#{attr_name}_history")
+      end
     end
   end
 
