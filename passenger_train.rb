@@ -1,7 +1,9 @@
+require_relative 'train.rb'
+
 class PassengerTrain < Train
   def initialize(number)
-    super
     @type = :passenger
+    super
   end
 
   validate :number, :presence
