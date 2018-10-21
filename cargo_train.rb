@@ -1,6 +1,8 @@
 require_relative 'train.rb'
+require_relative “validation.rb”
 
 class CargoTrain < Train
+  include Validation
   def initialize(number)
     super
     @type = :cargo
