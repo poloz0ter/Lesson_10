@@ -4,9 +4,9 @@ require_relative 'validation.rb'
 require_relative 'accessor.rb'
 
 class Train
+  extend Accessor
   include InstanceCounter
   include Company
-  include Accessor
   include Validation
   NUMBER = /.{3}\w*.{2}/
 
@@ -19,13 +19,13 @@ class Train
 
   def initialize(number)
     @number = number
-    validate!
     @speed = 0
     @wagons = []
     @deleted_wagons = []
     @type = :unknown
     @@trains_with_numbers[number] = self
     register_instance
+    validate!
   end
 
   def self.find(number)
